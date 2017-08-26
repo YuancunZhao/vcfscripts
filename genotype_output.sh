@@ -62,13 +62,13 @@ do
 	done
 done
 
-join -j 2 -t $'\t' $PWD/tmp/${vlist[0]}.tmp $PWD/tmp/${vlist[4]}.tmp | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' > $PWD/tmp/merge
+join -j 2 -t $'\t' $PWD/tmp/${vlist[0]}.tmp $PWD/tmp/${vlist[4]}.tmp | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' > $PWD/merge
 
 for (( i=2; ${#vlist[@]} > $(($(($i*4))+1)); ((i++)) ))
 do
 	awk '{print $2 "\t" $3}' $PWD/tmp/${vlist[$(($i*4))]}.tmp > $PWD/tmp/${vlist[$(($i*4))]}.del.tmp
-	join -t $'\t' $PWD/tmp/merge $PWD/tmp/${vlist[$(($i*4))]}.del.tmp > $PWD/tmp/merge.tmp
-	awk '{print $0}' $PWD/tmp/merge.tmp > $PWD/tmp/merge
+	join -t $'\t' $PWD/merge $PWD/tmp/${vlist[$(($i*4))]}.del.tmp > $PWD/tmp/merge.tmp
+	awk '{print $0}' $PWD/tmp/merge.tmp > $PWD/merge
 	rm $PWD/tmp/${vlist[$(($i*4))]}.del.tmp
 done
 
