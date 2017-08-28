@@ -2,6 +2,8 @@
 
 mkdir $PWD/tmp
 
+#Positions are based on GRCh37p13 assembly and can be omitted (denoted as "0") if rs IDs are clearly provided. 
+
 vlist=(rs2894257 6 32433276 32433276 rs9265769 6 31305933 31305933 rs7767914 6 29923000 29923000 rs9350317 6 21072417 21072417)
 
 glist=(GBR ACB ASW BEB)
@@ -43,7 +45,12 @@ do
 		for j in ${!glist[@]};
 	do
 		eval cg=$(echo \$\{${glist[$j]}\[\@\]\})
-		vcftools --gzvcf $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --recode --out $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]} $cg --chr ${vlist[$(($(($i*4))+1))]} --from-bp ${vlist[$(($(($i*4))+2))]} --to-bp ${vlist[$(($(($i*4))+3))]} --snp ${vlist[$(($i*4))]}
+		if [[ (${vlist[$(($(($i*4))+2))]} == 0) || (${vlist[$(($(($i*4))+3))]} == 0) ]]
+		then
+			vcftools --gzvcf $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --recode --out $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]} $cg --chr ${vlist[$(($(($i*4))+1))]} --snp ${vlist[$(($i*4))]}
+		else
+			vcftools --gzvcf $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --recode --out $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]} $cg --chr ${vlist[$(($(($i*4))+1))]} --from-bp ${vlist[$(($(($i*4))+2))]} --to-bp ${vlist[$(($(($i*4))+3))]} --snp ${vlist[$(($i*4))]}
+		fi
 	done
 	j=0
 done
@@ -75,4 +82,7 @@ done
 rm $PWD/tmp/merge.tmp
 
 exit 0
+
+
+
 
