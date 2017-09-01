@@ -1,8 +1,8 @@
 # vcfscripts
 
-This is a bash shell script for genotypes outputting through vcf files based on 1000 Genomes Project using VCFtools.
+This is a bash shell script for genotypes outputting through vcf files (which can be downloaded from ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/) based on 1000 Genomes Project using VCFtools.
 
-To run this script, please copy it to the directory that contains the vcf files of 1000 Genomes Project phase 3 data and change dorectory (cd) to this dorectory under bash shell.
+To run this script, please copy it to the directory that contains the vcf files of 1000 Genomes Project phase 3 data and change directory ```Bash cd ``` to this directory under bash shell.
 
 Command
 ```Bash
