@@ -6,7 +6,7 @@ To run this script, please copy it to the directory that contains the vcf files 
 
 Command
 ```Bash
-$ sh genotype_output.sh
+sh genotype_output.sh
 ```
 would run the script.
 
