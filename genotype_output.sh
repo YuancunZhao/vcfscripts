@@ -40,7 +40,7 @@ YRI=(--indv NA18486 --indv NA18488 --indv NA18489 --indv NA18498 --indv NA18499 
 
 
 
-for (( i=0; ${#vlist[@]} > $(($(($i*4))+1)); ((i++)) ))
+for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
 do
 		for j in ${!glist[@]};
 	do
@@ -57,7 +57,7 @@ done
 
 #Reform vcf files
 
-for (( i=0; ${#vlist[@]} > $(($(($i*4))+1)); ((i++)) ))
+for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
 do
 	eval title=$(echo 'GROUP\\tSAMPLE\\t%ID\\n')
 	bcftools query -f $title $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]}.recode.vcf > $PWD/tmp/${vlist[$(($i*4))]}.tmp
@@ -90,6 +90,8 @@ do
 done
 
 rm $PWD/tmp/merge.tmp
+
+echo "Genotypes of loci ${vlist_aval[@]} in population ${glist[@]} are outputed."
 
 exit 0
 
