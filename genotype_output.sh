@@ -69,14 +69,24 @@ do
 	done
 done
 
-join -j 2 -t $'\t' $PWD/tmp/${vlist[0]}.tmp $PWD/tmp/${vlist[4]}.tmp | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' > $PWD/merge
+vlist_aval=()
 
-for (( i=2; ${#vlist[@]} > $(($(($i*4))+1)); ((i++)) ))
+for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
 do
-	awk '{print $2 "\t" $3}' $PWD/tmp/${vlist[$(($i*4))]}.tmp > $PWD/tmp/${vlist[$(($i*4))]}.del.tmp
-	join -t $'\t' $PWD/merge $PWD/tmp/${vlist[$(($i*4))]}.del.tmp > $PWD/tmp/merge.tmp
+	if [ -s $PWD/tmp/${vlist[$(($i*4))]}.tmp ]
+		then
+			vlist_aval=(${vlist_aval[@]} ${vlist[$(($i*4))]})
+	fi
+done
+
+join -j 2 -t $'\t' $PWD/tmp/${vlist_aval[0]}.tmp $PWD/tmp/${vlist_aval[1]}.tmp | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' > $PWD/merge
+
+for (( i=2; ${#vlist_aval[@]} > $i; ((i++)) ))
+do
+	awk '{print $2 "\t" $3}' $PWD/tmp/${vlist_aval[$i]}.tmp > $PWD/tmp/${vlist_aval[$i]}.del.tmp
+	join -t $'\t' $PWD/merge $PWD/tmp/${vlist_aval[$i]}.del.tmp > $PWD/tmp/merge.tmp
 	awk '{print $0}' $PWD/tmp/merge.tmp > $PWD/merge
-	rm $PWD/tmp/${vlist[$(($i*4))]}.del.tmp
+	rm $PWD/tmp/${vlist_aval[$i]}.del.tmp
 done
 
 rm $PWD/tmp/merge.tmp
