@@ -70,12 +70,15 @@ do
 done
 
 vlist_aval=()
+vlist_not_aval=()
 
 for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
 do
 	if [ -s $PWD/tmp/${vlist[$(($i*4))]}.tmp ]
 		then
 			vlist_aval=(${vlist_aval[@]} ${vlist[$(($i*4))]})
+		else
+			vlist_not_aval=(${vlist_not_aval[@]} ${vlist[$(($i*4))]})
 	fi
 done
 
@@ -91,7 +94,15 @@ done
 
 rm $PWD/tmp/merge.tmp
 
-echo "Genotypes of loci ${vlist_aval[@]} in population ${glist[@]} are outputed."
+if [ $vlist_aval ]
+	then
+		echo "Genotypes of loci ${vlist_aval[@]} in population ${glist[@]} are outputed."
+fi
+
+if [ $vlist_not_aval ]
+	then
+		echo "Loci ${vlist_not_aval[@]} are omitted, please make sure their rs IDs were in 1000 Genomes Project, or use chromosome positions instead."
+fi
 
 exit 0
 
