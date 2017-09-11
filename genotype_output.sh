@@ -49,7 +49,7 @@ do
 		then
 			vcftools --gzvcf $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --recode --out $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]} $cg --chr ${vlist[$(($(($i*4))+1))]} --snp ${vlist[$(($i*4))]}
 		else
-			vcftools --gzvcf $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --recode --out $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]} $cg --chr ${vlist[$(($(($i*4))+1))]} --from-bp ${vlist[$(($(($i*4))+2))]} --to-bp ${vlist[$(($(($i*4))+3))]} --snp ${vlist[$(($i*4))]}
+			vcftools --gzvcf $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --recode --out $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]} $cg --chr ${vlist[$(($(($i*4))+1))]} --from-bp ${vlist[$(($(($i*4))+2))]} --to-bp ${vlist[$(($(($i*4))+3))]}
 		fi
 	done
 	j=0
@@ -105,7 +105,4 @@ if [ $vlist_not_aval ]
 fi
 
 exit 0
-
-
-
 
