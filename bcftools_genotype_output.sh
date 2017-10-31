@@ -1,8 +1,12 @@
 #!/bin/bash
 
-mkdir $PWD/tmp
+if [ ! -d "$PWD/tmp" ]
+	then
+		mkdir $PWD/tmp
+fi
 
-vlist=(rs2894257 6 32433276 32433276 rs9265769 6 31305933 31305933 rs7767914 6 29923000 29923000 rs9350317 6 21072417 21072417)
+vlist=()
+vlist=($(cat var_list.csv | tr "\r\n" "," | sed 's/,,*/ /g'))
 
 glist=(GBR ACB ASW BEB)
 
