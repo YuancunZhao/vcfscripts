@@ -6,7 +6,20 @@ if [ ! -d "$PWD/tmp" ]
 fi
 
 vlist=()
-vlist=($(cat var_list.csv | tr "\r\n" "," | sed 's/,,*/ /g'))
+vlist_tmp=()
+vlist_duplicate=()
+
+vlist_tmp=($(cat var_list.csv | tr "\r\n" "," | sed 's/,,*/ /g'))
+
+for (( i=0; ${#vlist_tmp[@]} > $(($i*2)); ((i++)) ))
+do
+	if [ ${vlist_tmp[$(($(($i*2))+3))]} ] && [ ${vlist_tmp[$(($(($i*2))+1))]} == ${vlist_tmp[$(($(($i*2))+3))]} ]
+		then
+			vlist_duplicate=(${vlist_duplicate[@]} ${vlist_tmp[$(($i*2))]} ${vlist_tmp[$(($(($i*2))+1))]})
+			i=$(($i+2))
+	fi
+	vlist=(${vlist[@]} ${vlist_tmp[$(($i*2))]} ${vlist_tmp[$(($(($i*2))+1))]})
+done
 
 glist=(GBR ACB ASW BEB)
 
