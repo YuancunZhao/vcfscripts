@@ -37,38 +37,38 @@ STU="HG03642,HG03643,HG03644,HG03645,HG03646,HG03672,HG03673,HG03679,HG03680,HG0
 TSI="NA20502,NA20503,NA20504,NA20505,NA20506,NA20507,NA20508,NA20509,NA20510,NA20511,NA20512,NA20513,NA20514,NA20515,NA20516,NA20517,NA20518,NA20519,NA20520,NA20521,NA20522,NA20524,NA20525,NA20527,NA20528,NA20529,NA20530,NA20531,NA20532,NA20533,NA20534,NA20535,NA20536,NA20538,NA20539,NA20540,NA20541,NA20542,NA20543,NA20544,NA20581,NA20582,NA20585,NA20586,NA20587,NA20588,NA20589,NA20752,NA20753,NA20754,NA20755,NA20756,NA20757,NA20758,NA20759,NA20760,NA20761,NA20762,NA20763,NA20764,NA20765,NA20766,NA20767,NA20768,NA20769,NA20770,NA20771,NA20772,NA20773,NA20774,NA20775,NA20778,NA20783,NA20785,NA20786,NA20787,NA20790,NA20792,NA20795,NA20796,NA20797,NA20798,NA20799,NA20800,NA20801,NA20802,NA20803,NA20804,NA20805,NA20806,NA20807,NA20808,NA20809,NA20810,NA20811,NA20812,NA20813,NA20814,NA20815,NA20818,NA20819,NA20821,NA20822,NA20826,NA20827,NA20828,NA20832"
 YRI="NA18486,NA18488,NA18489,NA18498,NA18499,NA18501,NA18502,NA18504,NA18505,NA18507,NA18508,NA18510,NA18511,NA18516,NA18517,NA18519,NA18520,NA18522,NA18523,NA18853,NA18856,NA18858,NA18861,NA18864,NA18865,NA18867,NA18868,NA18870,NA18871,NA18873,NA18874,NA18876,NA18877,NA18878,NA18879,NA18881,NA18907,NA18908,NA18909,NA18910,NA18912,NA18915,NA18916,NA18917,NA18923,NA18924,NA18933,NA18934,NA19092,NA19093,NA19095,NA19096,NA19098,NA19099,NA19102,NA19107,NA19108,NA19113,NA19114,NA19116,NA19117,NA19118,NA19119,NA19121,NA19129,NA19130,NA19131,NA19137,NA19138,NA19141,NA19143,NA19144,NA19146,NA19147,NA19149,NA19152,NA19153,NA19159,NA19160,NA19171,NA19172,NA19175,NA19184,NA19185,NA19189,NA19190,NA19197,NA19198,NA19200,NA19201,NA19204,NA19206,NA19207,NA19209,NA19210,NA19213,NA19214,NA19222,NA19223,NA19225,NA19235,NA19236,NA19238,NA19239,NA19247,NA19248,NA19256,NA19257"
 
-for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
+for (( i=0; ${#vlist[@]} > $(($i*2)); ((i++)) ))
 do
 		for j in ${!glist[@]};
 	do
 		eval cg=$(echo \$\{${glist[$j]}\[\@\]\})
-		bcftools view -O v --regions ${vlist[$(($(($i*4))+1))]}:${vlist[$(($(($i*4))+2))]} --targets ${vlist[$(($(($i*4))+1))]}:${vlist[$(($(($i*4))+2))]} --samples $cg $PWD/ALL.chr${vlist[$(($(($i*4))+1))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --output-file $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]}.recode.vcf
+		bcftools view -O v --regions ${vlist[$(($i*2))]}:${vlist[$(($(($i*2))+1))]} --targets ${vlist[$(($i*2))]}:${vlist[$(($(($i*2))+1))]} --samples $cg $PWD/ALL.chr${vlist[$(($i*2))]}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --output-file $PWD/tmp/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf
 	done
 	j=0
 done
 
-for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
+for (( i=0; ${#vlist[@]} > $(($i*2)); ((i++)) ))
 do
 	eval title=$(echo 'GROUP\\tSAMPLE\\t%ID\\n')
-	bcftools query -f $title $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]}.recode.vcf > $PWD/tmp/${vlist[$(($i*4))]}.tmp
+	bcftools query -f $title $PWD/tmp/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf > $PWD/tmp/${vlist[$(($(($i*2))+1))]}.tmp
 
 	for j in ${!glist[@]};
 	do
 		eval entry=$(echo '['${glist[$j]}'\\t%SAMPLE\\t%TGT\\n]')
-		bcftools query -f $entry $PWD/tmp/${vlist[$(($i*4))]}_${glist[$j]}.recode.vcf >> $PWD/tmp/${vlist[$(($i*4))]}.tmp
+		bcftools query -f $entry $PWD/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf >> $PWD/tmp/${vlist[$(($(($i*2))+1))]}.tmp
 	done
 done
 
 vlist_aval=()
 vlist_not_aval=()
 
-for (( i=0; ${#vlist[@]} > $(($i*4)); ((i++)) ))
+for (( i=0; ${#vlist[@]} > $(($i*2)); ((i++)) ))
 do
-	if [ -s $PWD/tmp/${vlist[$(($i*4))]}.tmp ]
+	if [ -s $PWD/tmp/${vlist[$(($(($i*2))+1))]}.tmp ]
 		then
-			vlist_aval=(${vlist_aval[@]} ${vlist[$(($i*4))]})
+			vlist_aval=(${vlist_aval[@]} ${vlist[$(($(($i*2))+1))]})
 		else
-			vlist_not_aval=(${vlist_not_aval[@]} ${vlist[$(($i*4))]})
+			vlist_not_aval=(${vlist_not_aval[@]} ${vlist[$(($(($i*2))+1))]})
 	fi
 done
 
@@ -90,12 +90,22 @@ fi
 
 if [ $vlist_aval ]
 	then
-		echo "Genotypes of loci ${vlist_aval[@]} in population ${glist[@]} are outputed."
+		if [ ${#vlist_aval[@]} == 1 ]
+			then
+				echo "Genotypes of locus ${vlist_aval[@]} in population ${glist[@]} are outputed."
+			else
+				echo "Genotypes of loci ${vlist_aval[@]} in population ${glist[@]} are outputed."
+			fi
 fi
 
 if [ $vlist_not_aval ]
 	then
-		echo "Loci ${vlist_not_aval[@]} are omitted, please make sure their rs IDs were in 1000 Genomes Project, or use chromosome positions instead."
+		if [ ${#vlist_not_aval[@]} == 1 ]
+			then
+				echo "Locus ${vlist_not_aval[@]} is omitted, please make sure its chromosome position is correct."
+			else
+				echo "Loci ${vlist_not_aval[@]} are omitted, please make sure their chromosome positions are correct."
+		fi
 fi
 
 exit 0
