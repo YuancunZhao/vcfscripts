@@ -55,7 +55,7 @@ do
 	for j in ${!glist[@]};
 	do
 		eval entry=$(echo '['${glist[$j]}'\\t%SAMPLE\\t%TGT\\n]')
-		bcftools query -f $entry $PWD/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf >> $PWD/tmp/${vlist[$(($(($i*2))+1))]}.tmp
+		bcftools query -f $entry $PWD/tmp/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf >> $PWD/tmp/${vlist[$(($(($i*2))+1))]}.tmp
 	done
 done
 
