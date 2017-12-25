@@ -55,7 +55,7 @@ do
 		for j in ${!glist[@]};
 	do
 		eval cg=$(echo \$\{${glist[$j]}\[\@\]\})
-		bcftools view -O v --regions ${vlist[$(($i*2))]}:${vlist[$(($(($i*2))+1))]} --targets ${vlist[$(($i*2))]}:${vlist[$(($(($i*2))+1))]} --samples $cg $PWD/ALL.chr${vlist[$(($i*2))]}.HipSTR.20130502.STRs.vcf.gz --output-file $PWD/tmp/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf
+		bcftools view -O v --regions ${vlist[$(($i*2))]}:${vlist[$(($(($i*2))+1))]} --targets ${vlist[$(($i*2))]}:${vlist[$(($(($i*2))+1))]} --samples $cg $PWD/ALL.${vlist[$(($i*2))]}.HipSTR.20130502.STRs.vcf.gz --output-file $PWD/tmp/${vlist[$(($(($i*2))+1))]}_${glist[$j]}.recode.vcf
 	done
 	j=0
 done
